@@ -1,16 +1,18 @@
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.event.Event;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Screen;
 import javafx.util.Duration;
@@ -34,6 +36,14 @@ public class MainController
     public Label songTitleLabel;
     public JFXSlider timeSlider;
     public BorderPane topPane;
+    public AnchorPane main;
+
+    //-----Settings-----//
+    public JFXTextField musicLibraryLocation;
+    public FontAwesomeIconView selectMusicLibraryLocation;
+    public JFXDialog settingsDialog;
+    public Pane settingsDialogPane;
+
 
     //----------//
     private double xOffset = 0;
@@ -116,7 +126,10 @@ public class MainController
 
     public void showSidebar(InputEvent event)
     {
-
+        settingsDialog.setTransitionType(JFXDialog.DialogTransition.CENTER);
+        settingsDialog.show(main);
+        settingsDialog.setPrefWidth(main.getWidth());
+        settingsDialog.setPrefHeight(main.getHeight());
     }
 
     public void playNewSong(Song s)
@@ -129,5 +142,14 @@ public class MainController
         mediaPlayer.play();
         timeSlider.setMax(s.getLengthInSeconds());
         timeSlider.setValue(0);
+    }
+
+    public void selectLibraryLocation(Event event)
+    {
+    }
+
+    public void saveSettings(Event event)
+    {
+        settingsDialog.close();
     }
 }
