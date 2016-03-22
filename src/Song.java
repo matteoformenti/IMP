@@ -1,6 +1,7 @@
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
 import java.io.File;
 import java.net.MalformedURLException;
 
@@ -18,11 +19,7 @@ public class Song
     private String year;
     private String genre;
     private Image image;
-
-    public Image getImage()
-    {
-        return image;
-    }
+    private SongView songView;
 
     public Song(String resource)
     {
@@ -46,17 +43,31 @@ public class Song
             setArtist((String) media.getMetadata().get("artist"));
             setImage((Image) media.getMetadata().get("image"));
             setTitle((String) media.getMetadata().get("title"));
+            setAlbum((String) media.getMetadata().get("album"));
             if (title == null)
                 setTitle(path.split("\\\\")[path.split("\\\\").length-1]);
             if (artist == null)
                 setArtist("Unknown");
+            if (album == null)
+                setAlbum("Unknown");
+            if (Settings.getAuthorByName(artist) != null)
+            {
+                Settings.getAuthorByName(artist).getSongs().add(this);
+                if (Settings.getAuthorByName(artist).getAlbumByName(album) != null)
+                    Settings.getAuthorByName(artist).getAlbumByName(album).getSongs().add(this);
+            }
+            else
+            {
+                Author a = new Author(artist);
+                Album album = new Album(a, getAlbum());
+                album.getSongs().add(this);
+                Settings.getAuthors().add(a);
+                a.getAlbums().add(album);
+                a.getSongs().add(this);
+
+            }
             Settings.addSong(this);
         });
-    }
-
-    public Media getMedia()
-    {
-        return media;
     }
 
     public void setMedia(Media media)
@@ -64,9 +75,9 @@ public class Song
         this.media = media;
     }
 
-    public int getLengthInSeconds()
+    public Media getMedia()
     {
-        return lengthInSeconds;
+        return media;
     }
 
     public void setLengthInSeconds(int lengthInSeconds)
@@ -74,9 +85,9 @@ public class Song
         this.lengthInSeconds = lengthInSeconds;
     }
 
-    public int getBitrate()
+    public int getLengthInSeconds()
     {
-        return bitrate;
+        return lengthInSeconds;
     }
 
     public void setBitrate(int bitrate)
@@ -84,9 +95,9 @@ public class Song
         this.bitrate = bitrate;
     }
 
-    public int getSampleRate()
+    public int getBitrate()
     {
-        return sampleRate;
+        return bitrate;
     }
 
     public void setSampleRate(int sampleRate)
@@ -94,9 +105,9 @@ public class Song
         this.sampleRate = sampleRate;
     }
 
-    public String getYear()
+    public int getSampleRate()
     {
-        return year;
+        return sampleRate;
     }
 
     public void setYear(String year)
@@ -104,9 +115,9 @@ public class Song
         this.year = year;
     }
 
-    public String getTrack()
+    public String getYear()
     {
-        return track;
+        return year;
     }
 
     public void setTrack(String track)
@@ -114,9 +125,9 @@ public class Song
         this.track = track;
     }
 
-    public String getArtist()
+    public String getTrack()
     {
-        return artist;
+        return track;
     }
 
     public void setArtist(String artist)
@@ -124,9 +135,9 @@ public class Song
         this.artist = artist;
     }
 
-    public String getTitle()
+    public String getArtist()
     {
-        return title;
+        return artist;
     }
 
     public void setTitle(String title)
@@ -134,14 +145,19 @@ public class Song
         this.title = title;
     }
 
-    public String getAlbum()
+    public String getTitle()
     {
-        return album;
+        return title;
     }
 
     public void setAlbum(String album)
     {
         this.album = album;
+    }
+
+    public String getAlbum()
+    {
+        return album;
     }
 
     public String getGenre()
@@ -157,5 +173,20 @@ public class Song
     public void setImage(Image image)
     {
         this.image = image;
+    }
+
+    public Image getImage()
+    {
+        return image;
+    }
+
+    public void setSongView(SongView songView)
+    {
+        this.songView = songView;
+    }
+
+    public SongView getSongView()
+    {
+        return songView;
     }
 }

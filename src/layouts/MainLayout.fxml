@@ -40,17 +40,29 @@
                   </Tab>
                   <Tab closable="false" text="Playlists">
                      <content>
-                        <AnchorPane fx:id="playlistPane" />
+                        <AnchorPane fx:id="playlistPane" >
+                           <children>
+                              <ScrollPane fx:id="playlistView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
                      </content>
                   </Tab>
                   <Tab closable="false" text="Albums">
                     <content>
-                      <AnchorPane fx:id="albumsPane" />
+                      <AnchorPane fx:id="albumsPane" >
+                        <children>
+                           <ScrollPane fx:id="albumsView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        </children>
+                      </AnchorPane>
                     </content>
                   </Tab>
                   <Tab closable="false" text="Artists">
                     <content>
-                      <AnchorPane fx:id="artistsPane" />
+                      <AnchorPane fx:id="artistsPane" >
+                        <children>
+                           <ScrollPane fx:id="artistListView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        </children>
+                      </AnchorPane>
                     </content>
                   </Tab>
                   <Tab closable="false" text="All songs">

@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -37,15 +38,18 @@ public class MainController
     public JFXSlider timeSlider;
     public BorderPane topPane;
     public AnchorPane main;
+    public ScrollPane artistListView;
+    public ScrollPane albumsView;
+    public ScrollPane playlistView;
 
     //-----Settings-----//
     public JFXTextField musicLibraryLocation;
     public FontAwesomeIconView selectMusicLibraryLocation;
     public JFXDialog settingsDialog;
     public Pane settingsDialogPane;
-
-
     //----------//
+
+
     private double xOffset = 0;
     private double yOffset = 0;
     public MediaPlayer mediaPlayer;
@@ -64,6 +68,10 @@ public class MainController
             }
             catch (Exception e){}
         }));
+        for (int i = 0; i < 10; i++)
+        {
+            artistsPane.getChildren().add(new BoxLayout<>("title "+i, null));
+        }
         oneSecondTick.setCycleCount(Timeline.INDEFINITE);
         oneSecondTick.play();
 
@@ -80,7 +88,7 @@ public class MainController
 
     public void close(InputEvent event)
     {
-        Main.getMainStage().close();
+        Settings.closeApplication();
     }
 
     public void maximize(InputEvent event)

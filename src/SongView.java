@@ -21,6 +21,7 @@ public class SongView extends Pane
     public SongView(Song song)
     {
         this.song = song;
+        song.setSongView(this);
         box.setSpacing(10);
         Label songLabel = new Label();
         ImageView imageView = new ImageView();
@@ -36,7 +37,6 @@ public class SongView extends Pane
         this.setOnMouseClicked((event) ->
         {
             JFXDialog dialog = new JFXDialog();
-            System.out.println("showing dialog "+song.getTitle());
             JFXDialogLayout layout = new JFXDialogLayout();
             VBox box = new VBox();
             box.setSpacing(5);
@@ -77,6 +77,10 @@ public class SongView extends Pane
             HBox.setHgrow(box2, Priority.ALWAYS);
             HBox.setHgrow(box3, Priority.ALWAYS);
             HBox.setHgrow(box4, Priority.ALWAYS);
+            playButton.setPrefWidth(200);
+            addToPlaylistButton.setPrefWidth(200);
+            removeSongButton.setPrefWidth(200);
+            viewSongMetadata.setPrefWidth(200);
 
             box1.setAlignment(Pos.BASELINE_CENTER);
             box2.setAlignment(Pos.BASELINE_CENTER);
