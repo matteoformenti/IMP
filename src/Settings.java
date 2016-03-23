@@ -1,4 +1,5 @@
 import javafx.application.Platform;
+import javafx.scene.media.Media;
 
 import java.io.File;
 import java.io.IOException;
@@ -91,5 +92,13 @@ public class Settings implements Runnable
             if (a.getAuthorName().equalsIgnoreCase(authorName))
                 return a;
                 return null;
+    }
+
+    public static Song getSongAssociatedWithMedia(Media media)
+    {
+        for (Song s : songs)
+            if (s.getMedia().equals(media))
+                return s;
+        return null;
     }
 }

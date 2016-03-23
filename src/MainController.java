@@ -11,12 +11,13 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.InputEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
 import javafx.util.Duration;
+
+import java.io.File;
 
 
 public class MainController
@@ -68,9 +69,18 @@ public class MainController
             }
             catch (Exception e){}
         }));
-        for (int i = 0; i < 10; i++)
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        artistListView.setContent(vbox);
+        for (int k = 0; k < 10; k++)
         {
-            artistsPane.getChildren().add(new BoxLayout<>("title "+i, null));
+            HBox box = new HBox();
+            vbox.getChildren().add(box);
+            box.setSpacing(10);
+            for (int i = 0; i < 3; i++)
+            {
+                box.getChildren().add(new BoxLayout<>("title " + i, null));
+            }
         }
         oneSecondTick.setCycleCount(Timeline.INDEFINITE);
         oneSecondTick.play();
@@ -116,7 +126,13 @@ public class MainController
 
     public void nextSong(InputEvent event)
     {
-
+    try
+    {
+        Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))).getSongView().setStyle(null);
+        Song song = (Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))  != Settings.getSongs().size()-1) ? Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))+1) : Settings.getSongs().get(0);
+        playNewSong(song);
+    }
+    catch (Exception e){}
     }
 
     public void playPause(InputEvent event)
@@ -129,7 +145,13 @@ public class MainController
 
     public void previousSong(InputEvent event)
     {
-
+        try
+        {
+            Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))).getSongView().setStyle(null);
+            Song song = (Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))  == 0) ? Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))-1) : Settings.getSongs().get(Settings.getSongs().size()-1);
+            playNewSong(song);
+        }
+        catch (Exception e){}
     }
 
     public void showSidebar(InputEvent event)
@@ -150,10 +172,29 @@ public class MainController
         mediaPlayer.play();
         timeSlider.setMax(s.getLengthInSeconds());
         timeSlider.setValue(0);
+        s.getSongView().setStyle("-fx-background-color: #4FC3F7");
+        mediaPlayer.setOnEndOfMedia(() ->
+        {
+            Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))).getSongView().setStyle(null);
+            Song song = (Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))  != Settings.getSongs().size()-1) ? Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))+1) : Settings.getSongs().get(0);
+            playNewSong(song);
+        });
     }
 
     public void selectLibraryLocation(Event event)
     {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(Main.getMainStage());
+        Settings.setMediaDirectory(selectedDirectory.getAbsolutePath());
+        Settings.getSongs().removeAll(Settings.getSongs());
+        Settings.getAuthors().removeAll(Settings.getAuthors());
+        Settings.getAlbums().removeAll(Settings.getAlbums());
+        artistListView.setContent(null);
+        allSongsListView.getItems().removeAll(allSongsListView.getItems());
+        albumsView.setContent(null);
+        playlistView.setContent(null);
+        Thread t = new Thread(new Settings());
+        t.start();
     }
 
     public void saveSettings(Event event)

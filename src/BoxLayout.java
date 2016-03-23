@@ -16,6 +16,7 @@ public class BoxLayout<T> extends Pane
         background.setFitWidth(dimension);
         background.setFitHeight(dimension);
         this.getChildren().add(background);
+        this.getChildren().add(textLabel);
         this.setPrefWidth(dimension);
     }
 }
