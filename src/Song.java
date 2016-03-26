@@ -45,7 +45,10 @@ public class Song
             setTitle((String) media.getMetadata().get("title"));
             setAlbum((String) media.getMetadata().get("album"));
             if (title == null)
-                setTitle(path.split("\\\\")[path.split("\\\\").length-1]);
+            {
+                setTitle(path.split("\\\\")[path.split("\\\\").length - 1]);
+                System.out.println("null title");
+            }
             if (artist == null)
                 setArtist("Unknown");
             if (album == null)
@@ -185,8 +188,5 @@ public class Song
         this.songView = songView;
     }
 
-    public SongView getSongView()
-    {
-        return songView;
-    }
+    public SongView getSongView() {return songView;}
 }

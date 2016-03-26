@@ -11,7 +11,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.InputEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
@@ -69,21 +71,6 @@ public class MainController
             }
             catch (Exception e){}
         }));
-        VBox vbox = new VBox();
-        vbox.setSpacing(10);
-        artistListView.setContent(vbox);
-        for (int k = 0; k < 10; k++)
-        {
-            HBox box = new HBox();
-            vbox.getChildren().add(box);
-            box.setSpacing(10);
-            for (int i = 0; i < 3; i++)
-            {
-                box.getChildren().add(new BoxLayout<>("title " + i, null));
-            }
-        }
-        oneSecondTick.setCycleCount(Timeline.INDEFINITE);
-        oneSecondTick.play();
 
         songTitleLabel.setText("");
         topPane.setOnMousePressed((event) -> {
@@ -94,6 +81,8 @@ public class MainController
                 Main.getMainStage().setX(event.getScreenX() - xOffset);
                 Main.getMainStage().setY(event.getScreenY() - yOffset);
         });
+        oneSecondTick.setCycleCount(Timeline.INDEFINITE);
+        oneSecondTick.play();
     }
 
     public void close(InputEvent event)
@@ -148,7 +137,7 @@ public class MainController
         try
         {
             Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))).getSongView().setStyle(null);
-            Song song = (Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))  == 0) ? Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))-1) : Settings.getSongs().get(Settings.getSongs().size()-1);
+            Song song = (Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))  != 0) ? Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))-1) : Settings.getSongs().get(Settings.getSongs().size()-1);
             playNewSong(song);
         }
         catch (Exception e){}
@@ -172,7 +161,6 @@ public class MainController
         mediaPlayer.play();
         timeSlider.setMax(s.getLengthInSeconds());
         timeSlider.setValue(0);
-        s.getSongView().setStyle("-fx-background-color: #4FC3F7");
         mediaPlayer.setOnEndOfMedia(() ->
         {
             Settings.getSongs().get(Settings.getSongs().indexOf(Settings.getSongAssociatedWithMedia(mediaPlayer.getMedia()))).getSongView().setStyle(null);

@@ -1,4 +1,5 @@
 import javafx.application.Platform;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 
 import java.io.File;
@@ -28,11 +29,21 @@ public class Settings implements Runnable
         {
             e.printStackTrace();
         }
+        for (Song s : songs)
+            Platform.runLater(() -> Main.getController().allSongsListView.getItems().add(new SongView(s)));
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        Platform.runLater(() -> Main.getController().artistListView.setContent(vbox));
+        for (Author a : authors)
+        {
+            vbox.getChildren().add(a.getBox());
+        }
     }
 
     public static synchronized void addSong(Song song)
     {
-        Platform.runLater(() -> Main.getController().allSongsListView.getItems().add(new SongView(song)));
+
     }
 
     public static void setSongs(List<Song> songs)

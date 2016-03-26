@@ -6,10 +6,22 @@ public class Author
     private List<Album> albums = new ArrayList<>();
     private List<Song> songs = new ArrayList<>();
     private String authorName;
+    private BoxLayout box;
 
     public Author(String authorName)
     {
         this.authorName = authorName;
+        this.box = new BoxLayout(authorName, this);
+    }
+
+    public BoxLayout getBox()
+    {
+        return box;
+    }
+
+    public void setBox(BoxLayout box)
+    {
+        this.box = box;
     }
 
     public String getAuthorName()

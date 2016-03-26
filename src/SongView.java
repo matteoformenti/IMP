@@ -16,6 +16,7 @@ public class SongView extends Pane
 {
     private Song song;
     public HBox box = new HBox();
+    private VBox vbox = new VBox();
     public JFXPopup popup = new JFXPopup();
 
     public SongView(Song song)
@@ -23,7 +24,8 @@ public class SongView extends Pane
         this.song = song;
         song.setSongView(this);
         box.setSpacing(10);
-        Label songLabel = new Label();
+        Label songLabel = new Label(song.getTitle());
+        Label artistLabel = new Label(song.getArtist());
         ImageView imageView = new ImageView();
         imageView.setImage(new Image(getClass().getResource("icons/music-note.png").toString()));
         if (song.getImage() != null)
@@ -32,7 +34,10 @@ public class SongView extends Pane
         imageView.setFitWidth(40);
         songLabel.setText(song.getTitle());
         box.getChildren().add(imageView);
-        box.getChildren().add(songLabel);
+        box.getChildren().add(vbox);
+        vbox.getChildren().add(songLabel);
+        vbox.getChildren().add(artistLabel);
+
         this.getChildren().add(box);
         this.setOnMouseClicked((event) ->
         {

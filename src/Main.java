@@ -39,5 +39,6 @@ public class Main extends Application
             mainStage.show();
             Thread t = new Thread(new Settings());
             t.start();
+
     }
 }
