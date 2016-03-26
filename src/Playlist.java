@@ -23,6 +23,5 @@ public class Playlist
     public void playPlaylist()
     {
         playingSong = songs.element();
-
     }
 }
