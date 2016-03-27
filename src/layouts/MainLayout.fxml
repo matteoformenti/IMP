@@ -173,6 +173,21 @@
                </JFXDialogLayout>
             </JFXDialog>
          </children>
+
+         <children>
+            <JFXDialog fx:id="loadingDialog">
+               <JFXDialogLayout>
+                  <Pane fx:id="loadingDialogPane">
+                     <children>
+                        <HBox>
+                           <Label text="Loading library..."></Label>
+                           <JFXSpinner></JFXSpinner>
+                        </HBox>
+                     </children>
+                  </Pane>
+               </JFXDialogLayout>
+            </JFXDialog>
+         </children>
       </BorderPane>
    </children>
 </AnchorPane>

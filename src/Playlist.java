@@ -1,9 +1,10 @@
 import javafx.scene.image.Image;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
-public class Playlist
+public class Playlist implements SongContainer
 {
     private Queue<Song> songs = new LinkedList<>();
     private Song playingSong;
@@ -23,5 +24,17 @@ public class Playlist
     public void playPlaylist()
     {
         playingSong = songs.element();
+    }
+
+    @Override
+    public List<Song> getSongs()
+    {
+        return null;
+    }
+
+    @Override
+    public Image getImage()
+    {
+        return null;
     }
 }

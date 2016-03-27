@@ -1,7 +1,9 @@
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Author
+public class Author implements SongContainer
 {
     private List<Album> albums = new ArrayList<>();
     private List<Song> songs = new ArrayList<>();
@@ -47,6 +49,20 @@ public class Author
     public List<Song> getSongs()
     {
         return songs;
+    }
+
+    @Override
+    public Image getImage()
+    {
+        if (albums.size() > 0)
+            for (Album a: albums)
+                if (a.getImage() != null)
+                    return a.getImage();
+        if (songs.size() > 0)
+            for (Song s: songs)
+                if (s.getImage() != null)
+                    return s.getImage();
+        return null;
     }
 
     public void setSongs(List<Song> songs)

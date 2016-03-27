@@ -1,7 +1,9 @@
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Album
+public class Album implements SongContainer
 {
     private List<Song> songs = new ArrayList<>();
     private String albumTitle;
@@ -26,6 +28,12 @@ public class Album
     public List<Song> getSongs()
     {
         return songs;
+    }
+
+    @Override
+    public Image getImage()
+    {
+        return null;
     }
 
     public void setSongs(List<Song> songs)

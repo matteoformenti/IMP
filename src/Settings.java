@@ -1,4 +1,7 @@
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 
@@ -20,6 +23,7 @@ public class Settings implements Runnable
     @Override
     public void run()
     {
+        Platform.runLater(() -> Main.getController().showLoadingDialog());
         try
         {
             Files.walk(Paths.get(Settings.mediaDirectory)).forEach(filePath ->{
@@ -34,11 +38,35 @@ public class Settings implements Runnable
 
         VBox vbox = new VBox();
         vbox.setSpacing(10);
+        Platform.runLater(() -> Main.getController().artistListView.setFitToWidth(true));
         Platform.runLater(() -> Main.getController().artistListView.setContent(vbox));
+        Platform.runLater(() -> Main.getController().artistListView.setPannable(true));
+        int counter = 0;
+        vbox.setSpacing(20);
+        HBox hbox = new HBox();
+        vbox.setFillWidth(true);
+        hbox.setPrefWidth(vbox.getWidth());
+        hbox.setSpacing(20);
+        hbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(hbox);
+        vbox.setPadding(new Insets(20,0,20,0));
         for (Author a : authors)
         {
-            vbox.getChildren().add(a.getBox());
+            if (counter == 3)
+            {
+                hbox = new HBox();
+                vbox.getChildren().add(hbox);
+                counter = 0;
+                hbox.setSpacing(20);
+                hbox.setPrefWidth(vbox.getWidth());
+                hbox.setAlignment(Pos.CENTER);
+            }
+            hbox.getChildren().add(a.getBox());
+            counter++;
+            a.getBox().resizeElement();
+            a.getBox().updateBackground();
         }
+        Platform.runLater(() -> Main.getController().hideLoadingDialog());
     }
 
     public static synchronized void addSong(Song song)

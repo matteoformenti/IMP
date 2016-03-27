@@ -50,8 +50,10 @@ public class MainController
     public FontAwesomeIconView selectMusicLibraryLocation;
     public JFXDialog settingsDialog;
     public Pane settingsDialogPane;
-    //----------//
 
+    //-----loading------//
+    public JFXDialog loadingDialog;
+    public Pane loadingDialogPane;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -83,6 +85,16 @@ public class MainController
         });
         oneSecondTick.setCycleCount(Timeline.INDEFINITE);
         oneSecondTick.play();
+        main.widthProperty().addListener((observable, oldValue, newValue) ->
+        {
+            for (Author a : Settings.getAuthors())
+                a.getBox().resizeElement();
+        });
+        main.heightProperty().addListener((observable, oldValue, newValue) ->
+        {
+            for (Author a : Settings.getAuthors())
+                a.getBox().resizeElement();
+        });
     }
 
     public void close(InputEvent event)
@@ -106,6 +118,8 @@ public class MainController
             Main.getMainStage().setHeight(500);
             Main.getMainStage().centerOnScreen();
         }
+        for (Author a : Settings.getAuthors())
+            a.getBox().resizeElement();
     }
 
     public void minimize(InputEvent event)
@@ -149,6 +163,20 @@ public class MainController
         settingsDialog.show(main);
         settingsDialog.setPrefWidth(main.getWidth());
         settingsDialog.setPrefHeight(main.getHeight());
+    }
+
+    public void showLoadingDialog()
+    {
+        loadingDialog.setOverlayClose(false);
+        loadingDialog.setTransitionType(JFXDialog.DialogTransition.CENTER);
+        loadingDialog.show(main);
+        loadingDialog.setPrefWidth(main.getWidth());
+        loadingDialog.setPrefHeight(main.getHeight());
+    }
+
+    public void hideLoadingDialog()
+    {
+        loadingDialog.close();
     }
 
     public void playNewSong(Song s)
