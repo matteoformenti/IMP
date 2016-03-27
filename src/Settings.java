@@ -35,37 +35,74 @@ public class Settings implements Runnable
         }
         for (Song s : songs)
             Platform.runLater(() -> Main.getController().allSongsListView.getItems().add(new SongView(s)));
-
-        VBox vbox = new VBox();
-        vbox.setSpacing(10);
-        Platform.runLater(() -> Main.getController().artistListView.setFitToWidth(true));
-        Platform.runLater(() -> Main.getController().artistListView.setContent(vbox));
-        Platform.runLater(() -> Main.getController().artistListView.setPannable(true));
-        int counter = 0;
-        vbox.setSpacing(20);
-        HBox hbox = new HBox();
-        vbox.setFillWidth(true);
-        hbox.setPrefWidth(vbox.getWidth());
-        hbox.setSpacing(20);
-        hbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().add(hbox);
-        vbox.setPadding(new Insets(20,0,20,0));
-        for (Author a : authors)
+        if (true)
         {
-            if (counter == 3)
+            VBox vbox = new VBox();
+            vbox.setSpacing(10);
+            Platform.runLater(() -> Main.getController().artistListView.setFitToWidth(true));
+            Platform.runLater(() -> Main.getController().artistListView.setContent(vbox));
+            Platform.runLater(() -> Main.getController().artistListView.setPannable(true));
+            int counter = 0;
+            vbox.setSpacing(20);
+            HBox hbox = new HBox();
+            vbox.setFillWidth(true);
+            hbox.setPrefWidth(vbox.getWidth());
+            hbox.setSpacing(20);
+            hbox.setAlignment(Pos.CENTER);
+            vbox.getChildren().add(hbox);
+            vbox.setPadding(new Insets(20, 0, 20, 0));
+            for (Author a : authors)
             {
-                hbox = new HBox();
-                vbox.getChildren().add(hbox);
-                counter = 0;
-                hbox.setSpacing(20);
-                hbox.setPrefWidth(vbox.getWidth());
-                hbox.setAlignment(Pos.CENTER);
+                if (counter == 3)
+                {
+                    hbox = new HBox();
+                    vbox.getChildren().add(hbox);
+                    counter = 0;
+                    hbox.setSpacing(20);
+                    hbox.setPrefWidth(vbox.getWidth());
+                    hbox.setAlignment(Pos.CENTER);
+                }
+                hbox.getChildren().add(a.getBox());
+                counter++;
+                a.getBox().resizeElement();
+                a.getBox().updateBackground();
             }
-            hbox.getChildren().add(a.getBox());
-            counter++;
-            a.getBox().resizeElement();
-            a.getBox().updateBackground();
         }
+        Platform.runLater(() ->
+        {
+        if (true)
+        {
+            VBox vbox = new VBox();
+            vbox.setSpacing(10);
+            Platform.runLater(() -> Main.getController().albumsView.setFitToWidth(true));
+            Platform.runLater(() -> Main.getController().albumsView.setContent(vbox));
+            Platform.runLater(() -> Main.getController().albumsView.setPannable(true));
+            int counter = 0;
+            vbox.setSpacing(20);
+            HBox hbox = new HBox();
+            vbox.setFillWidth(true);
+            hbox.setPrefWidth(vbox.getWidth());
+            hbox.setSpacing(20);
+            hbox.setAlignment(Pos.CENTER);
+            vbox.getChildren().add(hbox);
+            vbox.setPadding(new Insets(20, 0, 20, 0));
+            for (Album a : albums)
+            {
+                if (counter == 3)
+                {
+                    hbox = new HBox();
+                    vbox.getChildren().add(hbox);
+                    counter = 0;
+                    hbox.setSpacing(20);
+                    hbox.setPrefWidth(vbox.getWidth());
+                    hbox.setAlignment(Pos.CENTER);
+                }
+                hbox.getChildren().add(a.getBox());
+                counter++;
+                a.getBox().resizeElement();
+                a.getBox().updateBackground();
+            }
+        }});
         Platform.runLater(() -> Main.getController().hideLoadingDialog());
     }
 
@@ -131,6 +168,14 @@ public class Settings implements Runnable
             if (a.getAuthorName().equalsIgnoreCase(authorName))
                 return a;
                 return null;
+    }
+
+    public static Album getAlbumByName(String albumName)
+    {
+        for (Author a : authors)
+            if (a.getAlbumByName(albumName) != null)
+                return a.getAlbumByName(albumName);
+        return null;
     }
 
     public static Song getSongAssociatedWithMedia(Media media)

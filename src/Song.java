@@ -47,7 +47,6 @@ public class Song
             if (title == null)
             {
                 setTitle(path.split("\\\\")[path.split("\\\\").length - 1]);
-                System.out.println("null title");
             }
             if (artist == null)
                 setArtist("Unknown");
@@ -58,16 +57,23 @@ public class Song
                 Settings.getAuthorByName(artist).getSongs().add(this);
                 if (Settings.getAuthorByName(artist).getAlbumByName(album) != null)
                     Settings.getAuthorByName(artist).getAlbumByName(album).getSongs().add(this);
+                else
+                {
+                    Album a = new Album(Settings.getAuthorByName(artist), album);
+                    Settings.getAuthorByName(artist).getAlbums().add(a);
+                    Settings.getAlbums().add(a);
+                    a.getSongs().add(this);
+                }
             }
             else
             {
                 Author a = new Author(artist);
                 Album album = new Album(a, getAlbum());
+                Settings.getAlbums().add(album);
                 album.getSongs().add(this);
                 Settings.getAuthors().add(a);
                 a.getAlbums().add(album);
                 a.getSongs().add(this);
-
             }
             Settings.addSong(this);
         });
