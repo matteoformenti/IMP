@@ -18,6 +18,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
 import javafx.util.Duration;
+import settings.Option;
+import settings.SettingsWriter;
 
 import java.io.File;
 
@@ -50,6 +52,7 @@ public class MainController
     public FontAwesomeIconView selectMusicLibraryLocation;
     public JFXDialog settingsDialog;
     public Pane settingsDialogPane;
+    public Label infoLabel;
 
     //-----loading------//
     public JFXDialog loadingDialog;
@@ -89,10 +92,14 @@ public class MainController
         {
             for (Author a : Settings.getAuthors())
                 a.getBox().resizeElement();
+            for (Album a : Settings.getAlbums())
+                a.getBox().resizeElement();
         });
         main.heightProperty().addListener((observable, oldValue, newValue) ->
         {
             for (Author a : Settings.getAuthors())
+                a.getBox().resizeElement();
+            for (Album a : Settings.getAlbums())
                 a.getBox().resizeElement();
         });
     }
@@ -119,6 +126,8 @@ public class MainController
             Main.getMainStage().centerOnScreen();
         }
         for (Author a : Settings.getAuthors())
+            a.getBox().resizeElement();
+        for (Album a : Settings.getAlbums())
             a.getBox().resizeElement();
     }
 
@@ -209,12 +218,23 @@ public class MainController
         allSongsListView.getItems().removeAll(allSongsListView.getItems());
         albumsView.setContent(null);
         playlistView.setContent(null);
+        musicLibraryLocation.setText(selectedDirectory.getAbsolutePath());
+        musicLibraryLocation.setPromptText("");
         Thread t = new Thread(new Settings());
         t.start();
     }
 
     public void saveSettings(Event event)
     {
+        Settings.setMediaDirectory(musicLibraryLocation.getText());
+        SettingsWriter writer = new SettingsWriter(Settings.settingsLocation, "$");
+        writer.addOption(new Option("libraryLocation", Settings.getMediaDirectory()));
+        writer.writeOptions();
         settingsDialog.close();
+    }
+
+    public void setInfoData(int songCounter, int artistCounter, int albumCounter, int totalLength)
+    {
+        infoLabel.setText("Number of songs: "+songCounter+"\nNumber of artists: "+artistCounter+"\nNumber of albums: "+albumCounter+"\nTotal durations: "+totalLength);
     }
 }

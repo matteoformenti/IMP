@@ -7,13 +7,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class BoxLayout extends AnchorPane
 {
     private String text;
     private double dimension = 100;
     private JFXDialog dialog;
-    ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("icons/ic_recent_actors_black_48dp_2x.png"))));
+    ImageView background = new ImageView(new Image(String.valueOf(getClass().getResource("icons/headphones.png"))));
     SongContainer container;
 
     public BoxLayout(String title, SongContainer container)
@@ -21,6 +22,7 @@ public class BoxLayout extends AnchorPane
         this.text = title;
         this.container = container;
         Label textLabel = new Label(text);
+        textLabel.setFont(new Font("Roboto", 15));
         if (container.getImage() != null)
             background.setImage(container.getImage());
         background.setFitWidth(dimension);

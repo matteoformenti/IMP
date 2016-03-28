@@ -14,7 +14,8 @@ import java.util.List;
 
 public class Settings implements Runnable
 {
-    public static String mediaDirectory = "D:\\Documents\\Music";
+    public static String mediaDirectory = "";
+    public static final String settingsLocation = "settings.set";
 
     private static List<Song> songs = new ArrayList<>();
     private static List<Author> authors = new ArrayList<>();
@@ -23,7 +24,6 @@ public class Settings implements Runnable
     @Override
     public void run()
     {
-        Platform.runLater(() -> Main.getController().showLoadingDialog());
         try
         {
             Files.walk(Paths.get(Settings.mediaDirectory)).forEach(filePath ->{
@@ -104,6 +104,7 @@ public class Settings implements Runnable
             }
         }});
         Platform.runLater(() -> Main.getController().hideLoadingDialog());
+        Platform.runLater(() -> Main.getController().setInfoData(songs.size(), authors.size(), albums.size(), 0));
     }
 
     public static synchronized void addSong(Song song)
