@@ -11,27 +11,43 @@ import settings.SettingsReader;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Main class for IMP music player
+ */
 public class Main extends Application
 {
+    private static MainController controller;
+    private static Stage mainStage;
+
+    /**
+     * Entry point
+     */
     public static void main(String a[])
     {
         launch(a);
     }
 
+    /**
+     * Getter for the main Stage
+     * @return The main stage
+     */
     public static Stage getMainStage()
     {
         return mainStage;
     }
 
-    private static MainController controller;
-
+    /**
+     * Getter for the main controller
+     * @return The controller
+     */
     public static MainController getController()
     {
         return controller;
     }
 
-    private static Stage mainStage;
-
+    /**
+     * JavaFX start method
+     */
     public void start(Stage primaryStage) throws IOException
     {
         mainStage = primaryStage;
@@ -44,15 +60,16 @@ public class Main extends Application
         controller.showLoadingDialog();
         mainStage.setResizable(false);
         controller.init();
+        /**
+         * read all options from teh file
+         */
         SettingsReader reader = new SettingsReader(Settings.settingsLocation, "$");
         if (reader.loadOptionsList() == 1)
         {
             List<Option> options = reader.getOptionsList();
             for (Option o : options)
                 if (o.getName().equals("libraryLocation"))
-                {
-                    System.out.println((String)o.getValue());
-                }
+                    Settings.setMediaDirectory((String) o.getValue());
             controller.musicLibraryLocation.setText(Settings.getMediaDirectory());
             mainStage.show();
             Thread t = new Thread(new Settings());
@@ -60,6 +77,9 @@ public class Main extends Application
         }
         else
         {
+            /**
+             * Or create a new file and show the settings dialog
+             */
             mainStage.show();
             controller.showSidebar(null);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

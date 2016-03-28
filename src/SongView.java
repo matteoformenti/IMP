@@ -15,17 +15,19 @@ import javafx.scene.layout.VBox;
 public class SongView extends Pane
 {
     private Song song;
-    public HBox box = new HBox();
+    private HBox box = new HBox();
     private VBox vbox = new VBox();
-    public JFXPopup popup = new JFXPopup();
+    private JFXPopup popup = new JFXPopup();
+    private Label songLabel;
+    private Label artistLabel;
 
     public SongView(Song song)
     {
         this.song = song;
         song.setSongView(this);
         box.setSpacing(10);
-        Label songLabel = new Label(song.getTitle());
-        Label artistLabel = new Label(song.getArtist());
+        songLabel = new Label(song.getTitle());
+        artistLabel = new Label(song.getArtist());
         ImageView imageView = new ImageView();
         imageView.setImage(new Image(getClass().getResource("icons/music-note.png").toString()));
         if (song.getImage() != null)
@@ -98,4 +100,9 @@ public class SongView extends Pane
         });
     }
 
+    public void update()
+    {
+        this.artistLabel.setText(song.getArtist());
+        this.songLabel.setText(song.getTitle());
+    }
 }

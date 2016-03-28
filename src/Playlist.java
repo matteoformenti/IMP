@@ -1,40 +1,59 @@
 import javafx.scene.image.Image;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
+/**
+ * This object is a Playlist, it implements the {@link SongContainer} inteface so it can be displayed in a {@link BoxLayout}
+ */
 public class Playlist implements SongContainer
 {
-    private Queue<Song> songs = new LinkedList<>();
+    /**
+     * The list of songs in the playlist
+      */
+    private List<Song> songs = new ArrayList<>();
+    /**
+     * The song currently playing
+     */
     private Song playingSong;
+    /**
+     * The playlist name
+     */
     private String name;
+    /**
+     * The playlist icon
+     */
     private Image icon;
 
-    public Playlist(String name)
-    {
-        this.name = name;
-    }
+    /**
+     * Default constructor fo {@link Playlist}
+     * @param name The name of the playlist
+     */
+    public Playlist(String name){this.name = name;}
 
-    public void addSong(Song song)
-    {
-        songs.add(song);
-    }
+    /**
+     * This method is used to add a song to the playlist
+     * @param song The song to add
+     */
+    public void addSong(Song song){songs.add(song);}
 
-    public void playPlaylist()
-    {
-        playingSong = songs.element();
-    }
+    /**
+     * This method is used to remove a song
+     * @param song The song to remove
+     */
+    public void removeSong(Song song) {songs.remove(song);}
 
+    /**
+     * Implemented getter for the song list
+     * @return The list of songs
+     */
     @Override
-    public List<Song> getSongs()
-    {
-        return null;
-    }
+    public List<Song> getSongs(){return songs;}
 
+    /**
+     * Implemented getter for the image
+     * @return The background image
+     */
     @Override
-    public Image getImage()
-    {
-        return null;
-    }
+    public Image getImage(){return icon;}
 }

@@ -12,15 +12,44 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class stores all the variables to correctly use IMP
+ */
 public class Settings implements Runnable
 {
+    /**
+     * The location of the library
+     */
     public static String mediaDirectory = "";
+
+    /**
+     * The location of the configuration file
+     */
     public static final String settingsLocation = "settings.set";
 
+    /**
+     * The list of all songs
+     */
     private static List<Song> songs = new ArrayList<>();
+
+    /**
+     * The list of all authors
+     */
     private static List<Author> authors = new ArrayList<>();
+
+    /**
+     * The list of all albums
+     */
     private static List<Album> albums = new ArrayList<>();
 
+    /**
+     * The list of all Playlists
+     */
+    private  static List<Playlist> playlists = new ArrayList<>();
+
+    /**
+     * The threaded initializer, this method loads all the songs in the library folder
+     */
     @Override
     public void run()
     {
@@ -33,8 +62,6 @@ public class Settings implements Runnable
         {
             e.printStackTrace();
         }
-        for (Song s : songs)
-            Platform.runLater(() -> Main.getController().allSongsListView.getItems().add(new SongView(s)));
         if (true)
         {
             VBox vbox = new VBox();
@@ -107,62 +134,71 @@ public class Settings implements Runnable
         Platform.runLater(() -> Main.getController().setInfoData(songs.size(), authors.size(), albums.size(), 0));
     }
 
+    /**
+     * This method is used to add a song to the list
+     * @param song The song to add
+     */
     public static synchronized void addSong(Song song)
     {
-
+        Platform.runLater(() -> Main.getController().allSongsListView.getItems().add(new SongView(song)));
+        Platform.runLater(() -> song.getSongView().update());
     }
 
-    public static void setSongs(List<Song> songs)
-    {
-        Settings.songs = songs;
-    }
-
+    /**
+     * Getter for the songs list
+     * @return The list of song
+     */
     public static List<Song> getSongs()
     {
         return songs;
     }
 
+    /**
+     * Getter for the Media Directory
+     * @return The directory
+     */
     public static String getMediaDirectory()
     {
         return mediaDirectory;
     }
 
+    /**
+     * Setter for the MediaDirectory property
+     * @param mediaDirectory The directory
+     */
     public static void setMediaDirectory(String mediaDirectory)
     {
         Settings.mediaDirectory = mediaDirectory;
     }
 
+    /**
+     * Getter for the list of authors
+     * @return The list of authors
+     */
     public static List<Author> getAuthors()
     {
         return authors;
     }
 
-    public static void setAuthors(List<Author> authors)
-    {
-        Settings.authors = authors;
-    }
-
+    /**
+     * Getter for the albums list
+     * @return The list of albums
+     */
     public static List<Album> getAlbums()
     {
         return albums;
     }
 
-    public static void setAlbums(List<Album> albums)
-    {
-        Settings.albums = albums;
-    }
+    /**
+     * Close the application
+     */
+    public static void closeApplication(){Main.getMainStage().close();}
 
-    public static void closeApplication()
-    {
-//        for (Author a : authors)
-//        {
-//            for (Album a1 : a.getAlbums())
-//                for (Song s : a1.getSongs())
-//                    System.out.println("Song: "+s.getTitle()+" by "+a.getAuthorName()+" album: "+a1.getAlbumTitle());
-//        }
-        Main.getMainStage().close();
-    }
-
+    /**
+     * This method returns the {@link Author} that has the name in the parameter
+     * @param authorName The author name
+     * @return Null is no author is found, an {@link Author} if something is found
+     */
     public static Author getAuthorByName(String authorName)
     {
         for(Author a : authors)
@@ -171,6 +207,11 @@ public class Settings implements Runnable
                 return null;
     }
 
+    /**
+     * This method returns the {@link Album} that correspond to the albumName
+     * @param albumName The anme of the Album
+     * @return Null is no album is found, an {@link Album} if something is found
+     */
     public static Album getAlbumByName(String albumName)
     {
         for (Author a : authors)
@@ -179,6 +220,11 @@ public class Settings implements Runnable
         return null;
     }
 
+    /**
+     * This method returns the song associated with a Media
+     * @param media The media
+     * @return The song associated with that media
+     */
     public static Song getSongAssociatedWithMedia(Media media)
     {
         for (Song s : songs)

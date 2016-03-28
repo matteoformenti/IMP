@@ -5,22 +5,48 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.net.MalformedURLException;
 
+/**
+ * This object is a song, it contains all the information of a single track
+ */
 public class Song
 {
+    /**
+     * The path of the media
+     */
     private String path;
+    /**
+     * The {@link Media} of the song
+     */
     private Media media;
+    /**
+     * The duration in seconds
+     */
     private int lengthInSeconds;
-    private int bitrate;
-    private int sampleRate;
-    private String track;
+    /**
+     * The artist
+     */
     private String artist;
+    /**
+     * The title
+     */
     private String title;
+    /**
+     * The album name
+     */
     private String album;
-    private String year;
-    private String genre;
+    /**
+     * The cover image
+     */
     private Image image;
+    /**
+     * The {@link SongView} associated with this song
+     */
     private SongView songView;
 
+    /**
+     * Default constructor
+     * @param resource The location of the song
+     */
     public Song(String resource)
     {
         path = resource;
@@ -34,6 +60,9 @@ public class Song
         }
     }
 
+    /**
+     * This method gets all the metadata from the {@link Media} and saves them
+     */
     public void getMetadata()
     {
         final MediaPlayer mp = new MediaPlayer(media);
@@ -44,10 +73,9 @@ public class Song
             setImage((Image) media.getMetadata().get("image"));
             setTitle((String) media.getMetadata().get("title"));
             setAlbum((String) media.getMetadata().get("album"));
+            lengthInSeconds = (int)media.getDuration().toSeconds();
             if (title == null)
-            {
                 setTitle(path.split("\\\\")[path.split("\\\\").length - 1]);
-            }
             if (artist == null)
                 setArtist("Unknown");
             if (album == null)
@@ -79,120 +107,108 @@ public class Song
         });
     }
 
-    public void setMedia(Media media)
-    {
-        this.media = media;
-    }
-
+    /**
+     * Getter for the {@link Media}
+     * @return the Media
+     */
     public Media getMedia()
     {
         return media;
     }
 
-    public void setLengthInSeconds(int lengthInSeconds)
-    {
-        this.lengthInSeconds = lengthInSeconds;
-    }
-
+    /**
+     * Getter for the length
+     * @return The duration
+     */
     public int getLengthInSeconds()
     {
         return lengthInSeconds;
     }
 
-    public void setBitrate(int bitrate)
-    {
-        this.bitrate = bitrate;
-    }
-
-    public int getBitrate()
-    {
-        return bitrate;
-    }
-
-    public void setSampleRate(int sampleRate)
-    {
-        this.sampleRate = sampleRate;
-    }
-
-    public int getSampleRate()
-    {
-        return sampleRate;
-    }
-
-    public void setYear(String year)
-    {
-        this.year = year;
-    }
-
-    public String getYear()
-    {
-        return year;
-    }
-
-    public void setTrack(String track)
-    {
-        this.track = track;
-    }
-
-    public String getTrack()
-    {
-        return track;
-    }
-
+    /**
+     * Setter for the artist
+     * @param artist The artist to set
+     */
     public void setArtist(String artist)
     {
         this.artist = artist;
     }
 
+    /**
+     * Getter for the artist
+     * @return The artist
+     */
     public String getArtist()
     {
         return artist;
     }
 
+    /**
+     * Setter for the title
+     * @param title The title
+     */
     public void setTitle(String title)
     {
         this.title = title;
     }
 
+    /**
+     * Getter for the title
+     * @return The title
+     */
     public String getTitle()
     {
         return title;
     }
 
+    /**
+     * Setter for the album
+     * @param album The album
+     */
     public void setAlbum(String album)
     {
         this.album = album;
     }
 
+    /**
+     * Getter for the album
+     * @return The album
+     */
     public String getAlbum()
     {
         return album;
     }
 
-    public String getGenre()
-    {
-        return genre;
-    }
-
-    public void setGenre(String genre)
-    {
-        this.genre = genre;
-    }
-
+    /**
+     * Setter for the poster image
+     * @param image The poster {@link Image}
+     */
     public void setImage(Image image)
     {
         this.image = image;
     }
 
+    /**
+     * Getter for the image
+     * @return The image
+     */
     public Image getImage()
     {
         return image;
     }
 
+    /**
+     * Setter for the {@link SongView}
+     * @param songView The songView
+     */
     public void setSongView(SongView songView)
     {
         this.songView = songView;
     }
 
+    /**
+     * Getter for the {@link SongView}
+     * @return  The SongView
+     */
     public SongView getSongView() {return songView;}
 }
