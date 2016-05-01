@@ -3,6 +3,9 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This object is an Album
+ */
 public class Album implements SongContainer
 {
     private List<Song> songs = new ArrayList<>();

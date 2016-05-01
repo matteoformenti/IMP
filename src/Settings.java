@@ -1,12 +1,12 @@
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -28,6 +28,11 @@ public class Settings implements Runnable
     public static final String settingsLocation = "settings.set";
 
     /**
+     * The location of the playlist file
+     */
+    public static final String playlistsLocation = "play.playlists";
+
+    /**
      * The list of all songs
      */
     private static List<Song> songs = new ArrayList<>();
@@ -47,6 +52,28 @@ public class Settings implements Runnable
      */
     private  static List<Playlist> playlists = new ArrayList<>();
 
+    public static List<Playlist> getPlaylists()
+    {
+        return playlists;
+    }
+
+    public static void savePlaylists()
+    {
+        try
+        {
+            FileOutputStream fileOutputStream = new FileOutputStream(playlistsLocation);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(playlists);
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * The threaded initializer, this method loads all the songs in the library folder
      */
@@ -60,7 +87,14 @@ public class Settings implements Runnable
                 songs.add(new Song(filePath.toString()));});
         } catch (IOException e)
         {
-            e.printStackTrace();
+            Platform.runLater(() ->
+            {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setTitle("Error while loading songs");
+                a.setContentText(e.getLocalizedMessage());
+                a.setContentText("Please, select a valid library location");
+                a.show();
+            });
         }
         if (true)
         {
@@ -192,7 +226,11 @@ public class Settings implements Runnable
     /**
      * Close the application
      */
-    public static void closeApplication(){Main.getMainStage().close();}
+    public static void closeApplication()
+    {
+        Main.getMainStage().close();
+        savePlaylists();
+    }
 
     /**
      * This method returns the {@link Author} that has the name in the parameter
@@ -230,6 +268,14 @@ public class Settings implements Runnable
         for (Song s : songs)
             if (s.getMedia().equals(media))
                 return s;
+        return null;
+    }
+
+    public static Playlist getPlaylistFromPlaylistView(PlayListView pw)
+    {
+        for (Playlist p : playlists)
+            if (p.getPlayListView().equals(pw))
+                return p;
         return null;
     }
 }

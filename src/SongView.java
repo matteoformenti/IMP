@@ -1,7 +1,4 @@
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXPopup;
+import com.jfoenix.controls.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -12,7 +9,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class SongView extends Pane
+import java.io.Serializable;
+
+public class SongView extends Pane implements Serializable
 {
     private Song song;
     private HBox box = new HBox();
@@ -59,15 +58,70 @@ public class SongView extends Pane
             box1.getChildren().add(playButton);
             HBox box2 = new HBox();
             JFXButton addToPlaylistButton = new JFXButton("Add to playlist");
-            addToPlaylistButton.setOnMouseClicked((event1 -> {
-                //add to playlist
-                dialog.close();
+            addToPlaylistButton.setOnAction((event1 ->
+            {
+                JFXDialog playlistDialog = new JFXDialog();
+                JFXDialogLayout playlistLayout = new JFXDialogLayout();
+                JFXListView playlist = new JFXListView();
+                for (Playlist p : Settings.getPlaylists())
+                {
+                    PlayListView pw = p.getPlayListView();
+                    pw.setOnMouseClicked((event2) ->
+                    {
+                        Settings.getPlaylistFromPlaylistView(pw).getSongs().add(this.song);
+                        playlistDialog.close();
+                        dialog.close();
+                    });
+                    playlist.getItems().add(p.getPlayListView());
+                }
+                JFXButton createPlaylistButton = new JFXButton("Create new playlist");
+                createPlaylistButton.setOnMouseClicked((e) ->
+                {
+                    JFXDialog createNewPlaylistDialog = new JFXDialog();
+                    JFXDialogLayout createNewPlaylistDialogLayout = new JFXDialogLayout();
+                    JFXTextField textField = new JFXTextField();
+                    textField.setPromptText("Playlist name");
+                    createNewPlaylistDialogLayout.setBody(textField);
+                    JFXButton savePlaylistButton = new JFXButton("Create playlist");
+                    JFXButton cancelButton = new JFXButton("Cancel");
+                    HBox hbox = new HBox();
+                    hbox.getChildren().addAll(savePlaylistButton, cancelButton);
+                    createNewPlaylistDialogLayout.setActions(hbox);
+                    createNewPlaylistDialog.setContent(createNewPlaylistDialogLayout);
+                    createNewPlaylistDialog.setTransitionType(JFXDialog.DialogTransition.CENTER);
+                    createNewPlaylistDialog.setPrefWidth(Main.getController().main.getWidth());
+                    createNewPlaylistDialog.setPrefHeight(Main.getController().main.getHeight());
+                    createNewPlaylistDialog.show(Main.getController().main);
+                    cancelButton.setOnMouseClicked((event2) ->
+                    {
+                        playlistDialog.close();
+                        dialog.close();
+                        createNewPlaylistDialog.close();
+                    });
+                    savePlaylistButton.setOnMouseClicked((event2) ->
+                    {
+                        Playlist playlist1 = new Playlist(textField.getText());
+                        playlist1.getSongs().add(song);
+                        Settings.getPlaylists().add(playlist1);
+                        playlistDialog.close();
+                        dialog.close();
+                        createNewPlaylistDialog.close();
+                    });
+                });
+                playlist.getItems().add(0, createPlaylistButton);
+                playlistLayout.setBody(playlist);
+                playlistDialog.setContent(playlistLayout);
+                playlistDialog.setTransitionType(JFXDialog.DialogTransition.CENTER);
+                playlistDialog.setPrefWidth(Main.getController().main.getWidth());
+                playlistDialog.setPrefHeight(Main.getController().main.getHeight());
+                playlistDialog.show(Main.getController().main);
             }));
             box2.getChildren().add(addToPlaylistButton);
             HBox box3 = new HBox();
             JFXButton removeSongButton = new JFXButton("Delete song");
-            addToPlaylistButton.setOnMouseClicked((event1 -> {
-                //delete file
+            addToPlaylistButton.setOnMouseClicked((event1 ->
+            {
+                //delete dons
                 dialog.close();
             }));
             box3.getChildren().add(removeSongButton);

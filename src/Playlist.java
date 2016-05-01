@@ -1,13 +1,26 @@
 import javafx.scene.image.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This object is a Playlist, it implements the {@link SongContainer} inteface so it can be displayed in a {@link BoxLayout}
+ * This object is a Playlist, it implements the {@link SongContainer} interface so it can be displayed in a {@link BoxLayout}
  */
-public class Playlist implements SongContainer
+public class Playlist implements SongContainer, Serializable
 {
+    private PlayListView playListView;
+
+    public PlayListView getPlayListView()
+    {
+        return playListView;
+    }
+
+    public void setPlayListView(PlayListView playListView)
+    {
+        this.playListView = playListView;
+    }
+
     /**
      * The list of songs in the playlist
       */
@@ -16,6 +29,17 @@ public class Playlist implements SongContainer
      * The song currently playing
      */
     private Song playingSong;
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
     /**
      * The playlist name
      */
@@ -26,10 +50,14 @@ public class Playlist implements SongContainer
     private Image icon;
 
     /**
-     * Default constructor fo {@link Playlist}
+     * Default constructor for {@link Playlist}
      * @param name The name of the playlist
      */
-    public Playlist(String name){this.name = name;}
+    public Playlist(String name)
+    {
+        this.name = name;
+        this.playListView = new PlayListView(this);
+    }
 
     /**
      * This method is used to add a song to the playlist

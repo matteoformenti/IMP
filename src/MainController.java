@@ -64,15 +64,14 @@ public class MainController
 
     public void init()
     {
+        timeSlider.setDisable(true);
         timeSlider.setValue(0);
         Timeline oneSecondTick = new Timeline(new KeyFrame(Duration.seconds(1), event ->
         {
             try
             {
                 if (mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))
-                {
                         timeSlider.setValue(timeSlider.getValue() + 1);
-                }
             }
             catch (Exception e){}
         }));
