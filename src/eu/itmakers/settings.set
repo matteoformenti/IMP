@@ -1,0 +1,6 @@
+$
+$the first character MUST be the one that is used to set a line as comment
+$every line without the $ will be treated as a config line
+
+$no description available
+libraryLocation=/media/4infa/BRODO/Personale/music_sabri
