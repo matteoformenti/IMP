@@ -7,37 +7,37 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/lib/fontawesomefx-8.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/eu/itmakers/lib/fontawesomefx-8.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/lib/jfoenix.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/eu/itmakers/lib/jfoenix.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/lib/MatteoFormenti.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/eu/itmakers/lib/MatteoFormenti.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/lib/mp3agic-0.8.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/eu/itmakers/lib/mp3agic-0.8.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

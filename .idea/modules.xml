@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/itmakers.imp.iml" filepath="$PROJECT_DIR$/itmakers.imp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eu.itmakers.iml" filepath="$PROJECT_DIR$/eu.itmakers.iml" />
     </modules>
   </component>
 </project>
